@@ -30,7 +30,8 @@ router.get('/ranking', async (req, res, next) => {
       users.barcode
     from race_user
     left join users on race_user.user_id = users.id
-    order by raptime is null ASC
+    where raptime is not null
+    order by raptime ASC
     limit 9`;
   const response = await connection.query(sql);
   res.json(response);
@@ -99,7 +100,7 @@ router.get('/', function (req, res, next) {
 });
 
 // PUT /races/:id タイム更新
-router.put('/:id', async (req, res, next) => {
+router.post('/:id', async (req, res, next) => {
   const connection = await mysql.createConnection(mysqlConfig);
   try {
     const sql = `
