@@ -15,6 +15,32 @@ function deleteTimeStamp(json) {
   return json;
 }
 
+router.get('/ranking', async (req, res, next) => {
+  const connection = await mysql.createConnection(mysqlConfig);
+  try {
+    const sql = `
+    select
+      race_user.id,
+      race_user.lane,
+      race_user.user_id,
+      race_user.race_id,
+      race_user.raptime,
+      users.name,
+      users.machine_name,
+      users.barcode
+    from race_user
+    left join users on race_user.user_id = users.id
+    order by raptime ASC
+    limit 9`;
+  const response = await connection.query(sql);
+  res.json(response);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    connection.end();
+  }
+})
+
 // POST /races レース新規作成
 router.post('/', function (req, res, next) {
   let connection;
