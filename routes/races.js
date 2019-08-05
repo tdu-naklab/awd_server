@@ -98,6 +98,26 @@ router.get('/', function (req, res, next) {
   })
 });
 
+// PUT /races/:id タイム更新
+router.put('/:id', async (req, res, next) => {
+  const connection = await mysql.createConnection(mysqlConfig);
+  try {
+    const sql = `
+    UPDATE race_user
+    LEFT JOIN users ON race_user.user_id = users.id
+    LEFT JOIN races ON race_user.race_id = races.id
+    SET raptime=?
+    WHERE users.barcode=? AND races.id=?`;
+    const data = [req.body.raptime, req.body.barcode, req.params.id];
+    const response = await connection.query(sql, data);
+    res.json(response);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    connection.end();
+  }
+});
+
 // GET /races/:id レース情報取得
 router.get('/:id', function (req, res, next) {
   let res_msg;
