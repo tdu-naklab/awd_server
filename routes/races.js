@@ -53,6 +53,25 @@ router.post('/', function (req, res, next) {
   })
 });
 
+// GET /races レース一覧取得
+router.get('/', function (req, res, next) {
+  let connection;
+  mysql.createConnection(mysqlConfig).then((conn) => {
+    connection = conn;
+    return conn;
+  }).then(() => {
+    const sql = 'SELECT * FROM races';
+    return connection.query(sql);
+  }).then((response) => {
+    res.send(response);
+    return Promise.resolve();
+  }).catch(error => {
+    console.log(error);
+  }).finally( () => {
+    connection.end();
+  })
+});
+
 // GET /races/:id レース情報取得
 router.get('/:id', function (req, res, next) {
   let res_msg;
