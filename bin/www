@@ -12,7 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '8080');
 app.set('port', port);
 
 /**
@@ -23,8 +23,17 @@ var server = http.createServer(app);
 const io = require('socket.io').listen(server);
 app.set('io', io);
 io.on('connection', function(socket){
-  socket.on('message', function(msg){
-    console.log('received')
+  socket.on('race_registered', function(msg){
+    console.log('race_registered');
+    console.log(msg);
+  });
+  socket.on('race_started', function(msg){
+    console.log('race_started');
+    console.log(msg);
+  });
+  socket.on('race_finished', function(msg){
+    console.log('race_finished');
+    console.log(msg);
   });
 });
 

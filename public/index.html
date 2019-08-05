@@ -14,10 +14,13 @@
   var socketio = io();
   $(function(){
     $('#message_form').submit(function(){
-      socketio.emit('message', $('#input_msg').val());
+      socketio.emit('mymsg', $('#input_msg').val());
       $('#input_msg').val('');
       return false;
     });
+  });
+  socket.on('mymsg', function(data) {
+    $('messages').prepend(data + '<br>');
   });
 </script>
 </body>

@@ -19,6 +19,7 @@ function deleteTimeStamp(json) {
 router.post('/', function (req, res, next) {
   let connection;
   let players_id = [];
+  let race_id;
   mysql.createConnection(mysqlConfig).then((conn) => {
     connection = conn;
     return conn;
@@ -36,13 +37,14 @@ router.post('/', function (req, res, next) {
     const data = [req.body.course];
     return connection.query(sql, data);
   }).then((response) => {  // レースユーザテーブル作成
+    race_id = response.insertId;
     return Promise.all(players_id.map(async (id, index) => {  // 1人ずつ
       const sql = 'INSERT INTO race_user (race_id, user_id, lane) VALUES (?, ?, ?)';
       const data = [response.insertId, id, index+1];
       await connection.query(sql, data)
     }));
   }).then(() => {
-    res.send('ok');
+    res.send(race_id.toString());
     return Promise.resolve();
   }).catch(error => {
     console.log(error);
