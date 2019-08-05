@@ -15,6 +15,42 @@ function deleteTimeStamp(json) {
   return json;
 }
 
+// POST /races レース新規作成
+router.post('/', function (req, res, next) {
+  let connection;
+  let players_id = [];
+  mysql.createConnection(mysqlConfig).then((conn) => {
+    connection = conn;
+    return conn;
+  }).then(() => {  // ユーザのIDを取得
+    return Promise.all(req.body.players.map(async (barcode) => {  // 1人ずつ
+      const sql = 'SELECT * FROM users WHERE barcode = ?';
+      const data = [barcode];
+      await connection.query(sql, data).then((response) => {
+        players_id.push(response[0].id);
+      });
+      return Promise.resolve();
+    }));
+  }).then(() => {  // レーステーブル作成
+    const sql = 'INSERT INTO races (course) VALUES (?)';
+    const data = [req.body.course];
+    return connection.query(sql, data);
+  }).then((response) => {  // レースユーザテーブル作成
+    return Promise.all(players_id.map(async (id, index) => {  // 1人ずつ
+      const sql = 'INSERT INTO race_user (race_id, user_id, lane) VALUES (?, ?, ?)';
+      const data = [response.insertId, id, index+1];
+      await connection.query(sql, data)
+    }));
+  }).then(() => {
+    res.send('ok');
+    return Promise.resolve();
+  }).catch(error => {
+    console.log(error);
+  }).finally( () => {
+    connection.end();
+  })
+});
+
 // GET /races/:id レース情報取得
 router.get('/:id', function (req, res, next) {
   let res_msg;
