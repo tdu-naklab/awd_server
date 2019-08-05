@@ -26,18 +26,22 @@ io.on('connection', function(socket){
   socket.on('race_registered', function(msg){
     console.log('race_registered');
     console.log(msg);
+    io.emit('race_registered', msg);
   });
   socket.on('race_started', function(msg){
     console.log('race_started');
     console.log(msg);
+    io.emit('race_started', msg);
   });
   socket.on('race_finished', function(msg){
     console.log('race_finished');
     console.log(msg);
+    io.emit('race_finished', msg);
   });
   socket.on('race_end', function(msg){
     console.log('race_end');
     console.log(msg);
+    io.emit('race_end', msg);
   });
 });
 
