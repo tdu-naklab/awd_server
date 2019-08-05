@@ -92,7 +92,7 @@ router.get('/:id', function (req, res, next) {
   }).then((response) => {  // ユーザ情報取得
     return Promise.all(response.map(async (item) => {
       let additional = {
-        "user_id": item.user_id,
+        "id": item.user_id,
         "name": null,
         "machine_name": null,
         "lane_id": item.lane_id,

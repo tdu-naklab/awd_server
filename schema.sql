@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS users;
 CREATE TABLE `users` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
-  `barcode` int(6) ZEROFILL NOT NULL,
+  `barcode` varchar(6) NOT NULL,
   `name` varchar(64) NOT NULL,
   `machine_name` varchar(64),
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
