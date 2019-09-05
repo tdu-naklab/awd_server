@@ -1,14 +1,21 @@
 {
-  "name": "awd_server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "name": "awd-server",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "author": "Sota Watanabe",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "body-parser": "^1.19.0",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "mysql": "^2.17.1",
+    "promise-mysql": "^4.1.0",
+    "socket.io": "^2.2.0"
   }
 }
