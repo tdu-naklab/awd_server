@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS awd_database;
+
 DROP TABLE IF EXISTS users;
 CREATE TABLE `users` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
